@@ -1,24 +1,33 @@
 #include "Classes.h"
 
 int main() {
+	srand(time(NULL));
 
-	vector <double> s{ 6.23, 2.23, 2.01 }; //3,4,8,9,1,5
+	vector <double> arr;
 
-	BubbleSort<double> sorting;
+	//BubbleSort<double> s;
+	//SelectionSort<double> s;
+	//InsertionSort<double> s;
+	//ShellSort<double> s;
+	QuickSort<double> s;
 
-	sorting.Info();
+	for (int i = 0; i < 11; ++i ) {
+		arr.push_back(rand()%100/10.);
+	}
+
+	s.Info();
 	cout << "==========================" << endl;
-	for (auto i = 0; i < s.size(); ++i) {
-		cout << s[i] << endl;
+	for (auto i = 0; i < arr.size(); ++i) {
+		cout << arr[i] << endl;
 	}
 	cout << "==========================" << endl;
-	sorting.Sort(s);
+	s.Sort(arr);
 	
-	for (auto i = 0; i < s.size(); ++i) {
-		cout << s[i] << endl;
+	for (auto i = 0; i < arr.size(); ++i) {
+		cout << arr[i] << endl;
 	}
 	cout << "==========================" << endl;
-	sorting.Info();
+	s.Info();
 
 	return 0; 
 }
