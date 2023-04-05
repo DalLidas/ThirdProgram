@@ -48,9 +48,15 @@ public:
 	}
 
 	inline void Info() const{
-		cout << "Num of compares: " << numOfCompares << endl
-			<< "Num of swaps: " << numOfSwaps << endl
-			<< "Execution time: " << executionTime << endl;
+		cout << "Num of compares: " << numOfCompares << " || "
+			<< "Num of swaps: " << numOfSwaps << " || "
+			<< "Execution time: " << executionTime;
+	}
+
+	inline void Clear() {
+		numOfCompares = 0;
+		numOfSwaps = 0;
+		executionTime = 0;
 	}
 
 };
