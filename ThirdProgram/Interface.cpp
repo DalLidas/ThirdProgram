@@ -9,14 +9,14 @@ void DrawSubBorder() {
 
 int EnterSettingsTwo() {
     int  setting = 0;
-    cout << endl << "=>";
+    cout << endl << ": ";
     cin >> setting;
 
     while (true) {
         if (setting == 1 || setting == 2) {
             break;
         }
-        cout << "=>";
+        cout << ": ";
 
         while (!(cin >> setting))
         {
@@ -30,14 +30,14 @@ int EnterSettingsTwo() {
 }
 int EnterSettingThree() {
     int setting = 0;
-    cout << endl << "=>";
+    cout << endl << ": ";
     cin >> setting;
 
     while (true) {
         if (setting == 1 || setting == 2 || setting == 3) {
             break;
         }
-        cout << "=>";
+        cout << ": ";
 
         while (!(cin >> setting))
         {
@@ -66,61 +66,6 @@ string EnterFilePath() {
 
     return filePath.c_str();
 }
-
-//void WriteOutput(vector<book*>* books, bool flagIgnoreHaritage, bool flagWriteTo) {
-//    if (flagWriteTo) {
-//        while (true) {
-//            string filePath = " ";
-//            filePath = EnterFilePath();
-//
-//            ifstream test(filePath.c_str());
-//            if (test.is_open()) {
-//                cout << "File already exist. You still want a write on it? (Yes \"1\" or No \"2\"): ";
-//                if (EnterSettingsTwo() == 2) {
-//                    continue;
-//                }
-//            }
-//
-//            ofstream outputStream(filePath.c_str());
-//            if (!outputStream.is_open()) {
-//                cout << "File with this name don't exist. Try again" << endl;
-//                continue;
-//            }
-//            else {
-//                for (size_t i = 0; i < books->size(); ++i) {
-//                    if (flagIgnoreHaritage) {
-//                        outputStream << books->at(i)->Get();
-//                    }
-//                    else {
-//                        if (dynamic_cast<techBook*>(books->at(i))){
-//                            outputStream << dynamic_cast<techBook*>(books->at(i))->Get();
-//                        }
-//                        else {
-//                            outputStream << books->at(i)->Get();
-//                        }
-//                    }
-//                }
-//                break;
-//            }
-//        }
-//    }
-//    else{
-//        for (size_t i = 0; i < books->size(); ++i) {
-//            if (flagIgnoreHaritage) {
-//                cout << books->at(i)->Get();
-//            }
-//            else {
-//                if (dynamic_cast<techBook*>(books->at(i))){
-//                    cout << dynamic_cast<techBook*>(books->at(i))->Get();
-//                }
-//                else {
-//                    cout << books->at(i)->Get();
-//                }
-//            }
-//        }
-//    }
-//    
-//}
 
 void InputFromFile(vector<vector<definedType>>& arrOrig) {
     int m = 0, n = 0;
@@ -155,7 +100,6 @@ void InputFromFile(vector<vector<definedType>>& arrOrig) {
                         cout << "Invalid data from file( incorrect matrix value ) " << endl;
                         arrOrig.clear();
                         continue;
-
                     }
                 }
                 arrOrig.push_back(subArr);
@@ -174,10 +118,10 @@ void InputFromConsole(vector<vector<definedType>>& arrOrig) {
     vector<definedType> subArr;
     definedType variable;
     
-    cout << "Enter m: ";
+    cout << "Enter m";
     m = EnterNum<int>();
 
-    cout << "Enter n: ";
+    cout << "Enter n";
     n = EnterNum<int>();
 
     for (auto i = 0; i < m; ++i) {
@@ -192,15 +136,15 @@ void InputFromConsole(vector<vector<definedType>>& arrOrig) {
 }
 
 void InputRandom(vector<vector<definedType>>& arrOrig) {
-    srand(time(NULL));
+    srand(static_cast<unsigned int>(time(NULL)));
     int m = 0, n = 0;
 
     vector<definedType> subArr;
 
-    cout << "Enter m: ";
+    cout << "Enter m";
     m = EnterNum<int>();
 
-    cout << "Enter n: ";
+    cout << "Enter n";
     n = EnterNum<int>();
 
     for (auto i = 0; i < m; ++i) {
@@ -240,5 +184,102 @@ void CompareAll(const vector<vector<definedType>>& arrOrig, vector<vector<define
     SortHandler<QuickSort<definedType>>(subArrSort, flagFullInfo);
 }
 
-void Compare(const vector<vector<definedType>>& arrOrig, vector<vector<definedType>>& arrSort) { ; }
+void Compare(const vector<vector<definedType>>& arrOrig, vector<vector<definedType>>& arrSort) {
+    vector<vector<definedType>> subArrSort;
+    vector<int> sortingOrder;
+    int numOfSortFunc = 0;
+    int sortFunc = 0;
+    bool flagFullInfo = false;
+
+    cout << "Do you want are full information about sorting (Yes \"1\" or No \"2\")";
+    if (EnterSettingsTwo() == 1) flagFullInfo = true;
+    DrawSubBorder();
+
+    cout << endl << "How many sort functions you want to use";
+    while (!IsInBetween<int>(numOfSortFunc = EnterNum<int>(), 0, INT_MAX));
+
+    DrawSubBorder();
+    cout << endl << "Set the type of sorting order:" << endl
+        << "1.BubbleSort" << endl
+        << "2.SelectionSort" << endl
+        << "3.InsertionSort" << endl
+        << "4.ShellSort" << endl
+        << "5.QuickSort" << endl;
+    DrawSubBorder();
+    cout << endl;
+
+    for (auto i = 0; i < numOfSortFunc; ++i) {
+        cout << "sorting function[" << i << "] type";
+        while (!IsInBetween<int>(sortFunc = EnterNum<int>(), 0, numOfSortFunctions));
+
+        sortingOrder.push_back(sortFunc);
+    }
+
+    for (auto i = 0; i < numOfSortFunc; ++i) {
+        switch (sortingOrder[i]) {
+        case(1):
+            subArrSort = arrOrig;
+            SortHandler<BubbleSort<definedType>>(subArrSort, flagFullInfo);
+            break;
+        case(2):
+            subArrSort = arrOrig;
+            SortHandler<SelectionSort<definedType>>(subArrSort, flagFullInfo);
+            break;
+        case(3):
+            subArrSort = arrOrig;
+            SortHandler<InsertionSort<definedType>>(subArrSort, flagFullInfo);
+            break;
+        case(4):
+            subArrSort = arrOrig;
+            SortHandler<ShellSort<definedType>>(subArrSort, flagFullInfo);
+            break;
+        case(5):
+            subArrSort = arrOrig;
+            SortHandler<QuickSort<definedType>>(subArrSort, flagFullInfo);
+            break;
+        }
+
+        if (i == 0) arrSort = subArrSort;
+    }
+}
+
+void WriteOutputConsole(const vector<vector<definedType>>& arr){
+    for (auto i = 0; i < arr.size(); ++i) {
+        for (auto j = 0; j < arr[0].size(); ++j) {
+            cout << arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void WriteOutputFile(const vector<vector<definedType>>& arr) {
+    while (true) {
+        string filePath = " ";
+        filePath = EnterFilePath();
+
+        ifstream test(filePath.c_str());
+        if (test.is_open()) {
+            cout << "File already exist. You still want a write on it? (Yes \"1\" or No \"2\")";
+            if (EnterSettingsTwo() == 2) continue;
+        }
+        test.close();
+
+        ofstream outputStream(filePath.c_str());
+        if (!outputStream.is_open()) {
+            cout << "File with this name don't exist. Try again" << endl;
+            continue;
+        }
+        else {
+            outputStream << arr.size() << " " << arr[0].size() << endl;
+            for (auto i = 0; i < arr.size(); ++i) {
+                for (auto j = 0; j < arr[0].size(); ++j) {
+                    outputStream << arr[i][j] << " ";
+                }
+                outputStream << endl;
+            }
+            outputStream.close();
+            break;
+        }
+    }
+}
 

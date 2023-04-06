@@ -130,10 +130,12 @@
     <ClInclude Include="Classes.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Input.txt" />

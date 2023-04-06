@@ -34,6 +34,8 @@ public:
 	}
 
 	virtual void Sort(vector<T>& arr) = 0;
+
+	virtual string Name() = 0;
 	
 	inline int GetNumOfCompares() const{
 		return numOfCompares;
@@ -72,6 +74,10 @@ public:
 
 	virtual ~BubbleSort() = default;
 
+	virtual string Name() override final {
+		return "BubbleSort";
+	}
+
 	virtual void Sort(vector<T>& arr) override final{
 		int startTime = clock();
 
@@ -99,6 +105,10 @@ public:
 	SelectionSort() {}
 
 	virtual ~SelectionSort() = default;
+
+	virtual string Name() override final {
+		return "SelectionSort";
+	}
 
 	virtual void Sort(vector<T>& arr) override final {
 		int startTime = clock();
@@ -128,11 +138,15 @@ public:
 
 	virtual ~InsertionSort() = default;
 
+	virtual string Name() override final {
+		return "InsertionSort";
+	}
+
 	virtual void Sort(vector<T>& arr) override final {
 		int startTime = clock();
 
-		for (auto i = 1; i < arr.size(); i++){
-			for (auto j = i; j > 0; j--) {
+		for (auto i = 1; i < arr.size(); ++i){
+			for (auto j = i; j > 0; --j) {
 				if (ISort<T>::isBigger(arr[j - 1], arr[j])) {
 					ISort<T>::Swap(arr, j - 1, j);
 				}
@@ -156,6 +170,10 @@ public:
 
 	virtual ~ShellSort() = default;
 
+	virtual string Name() override final {
+		return "ShellSort";
+	}
+
 	virtual void Sort(vector<T>& arr) override final {
 		int startTime = clock();
 
@@ -172,25 +190,23 @@ public:
 				// save a[i] in temp and make a hole at position i
 				T temp = arr[i];
 
+				++numOfSwaps;
+
 				// shift earlier gap-sorted elements up until the correct 
 				// location for a[i] is found
 				int j;
-				for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)
+				for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
 					arr[j] = arr[j - gap];
 
+					++numOfCompares;
+					++numOfSwaps;
+				}
 				//  put temp (the original a[i]) in its correct location
 				arr[j] = temp;
+				++numOfCompares;
 			}
-			
-		}
 
-		/*for (int i = 1; i < arr.size(); i++) {
-			for (int j = i; j > 0; j--) {
-				if (ISort<T>::isBigger(arr[j - 1], arr[j])) {
-					ISort<T>::Swap(arr, j - 1, j);
-				}
-			}
-		}*/
+		}
 
 		int endTime = clock();
 		executionTime = endTime - startTime;
@@ -223,6 +239,8 @@ class QuickSort : public ISort<T> {
 		// ¬ыбираем крайний правый элемент в качестве опорного элемента массива
 		T pivot = arr[end];
 
+		++numOfCompares;
+
 		// элементы, меньшие точки поворота, будут перемещены влево от `pIndex`
 		// элементы больше, чем точка поворота, будут сдвинуты вправо от `pIndex`
 		// равные элементы могут идти в любом направлении
@@ -236,11 +254,15 @@ class QuickSort : public ISort<T> {
 			{
 				swap(arr[i], arr[pIndex]);
 				pIndex++;
+
+				++numOfCompares;
+				++numOfSwaps;
 			}
 		}
 
 		// помен€ть местами `pIndex` с пивотом
 		swap(arr[pIndex], arr[end]);
+		++numOfSwaps;
 
 		// вернуть `pIndex` (индекс опорного элемента)
 		return pIndex;
@@ -255,18 +277,14 @@ public:
 
 	virtual ~QuickSort() = default;
 
+	virtual string Name() override final {
+		return "QuickSort";
+	}
+
 	virtual void Sort(vector<T>& arr) override final { // –азделение по схеме Lomuto
 		int startTime = clock();
 
-		quicksort(arr, 0, arr.size()-1);
-
-		/*for (int i = 1; i < arr.size(); i++) {
-			for (int j = i; j > 0; j--) {
-				if (ISort<T>::isBigger(arr[j - 1], arr[j])) {
-					ISort<T>::Swap(arr, j - 1, j);
-				}
-			}
-		}*/
+		quicksort(arr, 0, arr.size() - 1);
 
 		int endTime = clock();
 		executionTime = endTime - startTime;

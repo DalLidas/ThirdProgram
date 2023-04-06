@@ -1,15 +1,6 @@
 #pragma once
 
-#include "pch.h"
 #include "Classes.h"
-
-#define numOfTypes 4;
-
-
-enum types {
-    intType, doubleType, stringType, boolType
-};
-
 
 template <typename T> bool IsInBetween(const T& num, const T& start, const T& end) {
     return start < num && num <= end;
@@ -23,18 +14,16 @@ int EnterSettingThree();
 string EnterFilePath();
 template <typename T> T EnterNum() {
     T num = 0;
+    cout << ": ";
 
     while (!(cin >> num)) {
         cin.clear();
         cin.ignore(INT32_MAX, '\n');
-        cout << "Invalid input. Try again" << endl << "> ";
+        cout << "Invalid input. Try again" << ": ";
     }
 
     return num;
 }
-
-//int CorrectPages(const string& name, const string& author, const string& publisher);
-//int CorrectTypes(const string& name, const string& author, const string& publisher);
 
 void InputFromFile(vector<vector<definedType>>& arrOrig);
 
@@ -45,7 +34,6 @@ void InputRandom(vector<vector<definedType>>& arrOrig);
 void CompareAll(const vector<vector<definedType>>& arrOrig, vector<vector<definedType>>& arrSort);
 
 void Compare(const vector<vector<definedType>>& arrOrig, vector<vector<definedType>>& arrSort);
-//void WriteOutput(vector<book*>* books, bool flagIgnoreHaritage, bool flagWriteTo);
 
 template <class sortFunction>
 void SortHandler(vector<vector<definedType>>& subArrSort, bool flagFullInfo) {
@@ -69,7 +57,11 @@ void SortHandler(vector<vector<definedType>>& subArrSort, bool flagFullInfo) {
         }
     }
 
-    cout << "arr { Num of compares : " << numOfCompares << " || "
+    cout << function .Name() << ": arr { Num of compares : " << numOfCompares << " || "
         << "Num of swaps: " << numOfSwaps << " || "
         << "Execution time: " << executionTime << " }" << endl;
 }
+
+void WriteOutputConsole(const vector<vector<definedType>>& arr);
+
+void WriteOutputFile(const vector<vector<definedType>>& arr);
