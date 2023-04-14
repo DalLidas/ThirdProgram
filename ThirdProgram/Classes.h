@@ -23,12 +23,12 @@ public:
 		++numOfSwaps;
 	}
 	
-	inline bool isBigger(T a, T b){
+	inline bool IsBigger(T a, T b){
 		++numOfCompares;
 		return a > b;
 	}
 	
-	inline bool isSmaller(T a, T b){
+	inline bool IsSmaller(T a, T b){
 		++numOfCompares;
 		return a < b;
 	}
@@ -49,10 +49,10 @@ public:
 		return executionTime;
 	}
 
-	inline void Info() const{
-		cout << "Num of compares: " << numOfCompares << " || "
-			<< "Num of swaps: " << numOfSwaps << " || "
-			<< "Execution time: " << executionTime;
+	inline string Info() const{
+		return  "Num of compares: " + to_string(numOfCompares) + " || "
+			+ "Num of swaps: " + to_string(numOfSwaps) + " || "
+			+ "Execution time: " + to_string(executionTime);
 	}
 
 	inline void Clear() {
@@ -83,7 +83,7 @@ public:
 
 		for (auto i = 0; i < arr.size() - 1; ++i) {
 			for (auto j = 0; j < arr.size() - i - 1; ++j) {
-				if (ISort<T>::isBigger(arr[j], arr[j + 1])) {
+				if (ISort<T>::IsBigger(arr[j], arr[j + 1])) {
 					ISort<T>::Swap(arr, j, j+1);
 				}
 			}
@@ -115,7 +115,7 @@ public:
 
 		for (auto i = 0; i < arr.size(); ++i){
 			for (auto j = i + 1; j < arr.size(); ++j){
-				if (ISort<T>::isBigger(arr[i], arr[j])){
+				if (ISort<T>::IsBigger(arr[i], arr[j])){
 					ISort<T>::Swap(arr, i, j);
 				}
 			}
@@ -147,7 +147,7 @@ public:
 
 		for (auto i = 1; i < arr.size(); ++i){
 			for (auto j = i; j > 0; --j) {
-				if (ISort<T>::isBigger(arr[j - 1], arr[j])) {
+				if (ISort<T>::IsBigger(arr[j - 1], arr[j])) {
 					ISort<T>::Swap(arr, j - 1, j);
 				}
 			}

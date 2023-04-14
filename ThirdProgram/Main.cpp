@@ -1,8 +1,7 @@
 #include "Interface.h"
 
-//#ifdef __include_Test
-    #include "Test.h"
-//#endif
+#include "Test.h"
+
 
 enum inputSettings   { inputFromFile = 1, inputFromConsole = 2 , inputRandom = 3};
 enum compareSettings { compareAll = 1, compare = 2 , dontCompare = 3};
@@ -15,10 +14,7 @@ int main() {
     int exitSetting    = 0;
 
     //flags
-    //#ifdef __include_Test
-        bool flagErrorExist = true;
-    //#endif
-
+    bool flagErrorExist = true;
     bool flagWriteIfConsoleInput = false;
     bool flagInputNewMatrix      = true;
 
@@ -26,34 +22,31 @@ int main() {
     vector<vector<definedType>> arrOrig;
     vector<vector<definedType>> arrSort;
 
-    //#ifdef __include_Test
-        DrawBorder();
-        cout << endl << "Test for program" << endl;
+    DrawBorder();
+    cout << endl << "Test for program" << endl;
+    DrawSubBorder();
+    cout << endl;
+    flagErrorExist = ErrorHandler();
+    if (flagErrorExist) {
+        cout << "Do you still want are run the program? (Yes \"1\" or No \"2\")";
+        if (EnterSettingsTwo() == 2) return 0;
+    }
+    else {
         DrawSubBorder();
-        cout << endl;
-        flagErrorExist = ErrorHandler();
-        if (flagErrorExist) {
-            cout << "Do you still want are run the program? (Yes \"1\" or No \"2\")";
-            if (EnterSettingsTwo() == 2) return 0;
-        }
-        else {
-            DrawSubBorder();
-            cout << endl << "Program passed all test. All sorting function work correct" << endl ;
-            DrawBorder();
-        }
-    //#endif
+        cout << endl << "Program passed all test. All sorting function work correct" << endl ;
+        DrawBorder();
+    }
 
-
-        cout << endl << "5.1 Task by Mukhametov D.I. 423 group option 15" << endl << endl
-            << "It is necessary to create a program for sorting an array of data by methods : bubble, selection, insertion," << endl
-            << "Shell and quick sorting.Display unordered(once) and ordered(for each of the methods) arrays of data." << endl
-            << "Make a comparative table of the effectiveness of the methods, in which it is necessary" << endl
-            << "to specify the number of comparisons and permutations of variables in each sorting method." << endl
-            << "An unordered matrix of N rows and M columns is set and filled in once(from the keyboard," << endl
-            << "from a file, or with random numbers), then it is used for each of the sorting methods." << endl << endl
-            << "Implement an abstract ISort base class containing a pure virtual Sort method and" << endl
-            << "the necessary counters from which to inherit subclasses for implementing sorts." << endl << endl
-            << "Arrange each row of the matrix in ascending order." << endl ;
+    cout << endl << "3 Task by Mukhametov D.I. 423 group option 15" << endl << endl
+        << "It is necessary to create a program for sorting an array of data by methods : bubble, selection, insertion," << endl
+        << "Shell and quick sorting.Display unordered(once) and ordered(for each of the methods) arrays of data." << endl
+        << "Make a comparative table of the effectiveness of the methods, in which it is necessary" << endl
+        << "to specify the number of comparisons and permutations of variables in each sorting method." << endl
+        << "An unordered matrix of N rows and M columns is set and filled in once(from the keyboard," << endl
+        << "from a file, or with random numbers), then it is used for each of the sorting methods." << endl << endl
+        << "Implement an abstract ISort base class containing a pure virtual Sort method and" << endl
+        << "the necessary counters from which to inherit subclasses for implementing sorts." << endl << endl
+        << "Arrange each row of the matrix in ascending order." << endl ;
  
     while (true) {
         if (flagInputNewMatrix) {

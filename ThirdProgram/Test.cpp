@@ -3,11 +3,11 @@
 
 bool ErrorHandler() {
 	try {
-        if (TestingBubbleSort()) cout << "Bubble sort work correct" << endl;
-        if (TestingSelectionSort()) cout << "Selection sort work correct" << endl;
-		if (TestingInsertionSort()) cout << "Insertion sort work correct" << endl;
-        if (TestingShellSort()) cout << "Shell sort work correct" << endl;
-        if (TestingQuickSort()) cout << "Quick sort work correct" << endl;
+        if (TestingBubbleSort());
+        if (TestingSelectionSort());
+		if (TestingInsertionSort());
+        if (TestingShellSort());
+        if (TestingQuickSort());
 	}
 	catch(const int& numOfFailedTest){
         switch (numOfFailedTest){
@@ -44,8 +44,8 @@ bool TestingBubbleSort() {
     vector<vector<definedType>> arrSort2;
     vector<definedType> subArr;
 
-    for (auto i = 0; i < m_for_test; ++i) {
-        subArr.resize(n_for_test);
+    for (auto i = 0; i < mForTest; ++i) {
+        subArr.resize(nForTest);
         generate(subArr.begin(), subArr.end(), rand);
         arrOrig.push_back(subArr);
         subArr.clear();
@@ -76,8 +76,8 @@ bool TestingSelectionSort() {
     vector<vector<definedType>> arrSort2;
     vector<definedType> subArr;
 
-    for (auto i = 0; i < m_for_test; ++i) {
-        subArr.resize(n_for_test);
+    for (auto i = 0; i < mForTest; ++i) {
+        subArr.resize(nForTest);
         generate(subArr.begin(), subArr.end(), rand);
         arrOrig.push_back(subArr);
         subArr.clear();
@@ -108,8 +108,8 @@ bool TestingInsertionSort() {
     vector<vector<definedType>> arrSort2;
     vector<definedType> subArr;
 
-    for (auto i = 0; i < m_for_test; ++i) {
-        subArr.resize(n_for_test);
+    for (auto i = 0; i < mForTest; ++i) {
+        subArr.resize(nForTest);
         generate(subArr.begin(), subArr.end(), rand);
         arrOrig.push_back(subArr);
         subArr.clear();
@@ -140,8 +140,8 @@ bool TestingShellSort() {
     vector<vector<definedType>> arrSort2;
     vector<definedType> subArr;
 
-    for (auto i = 0; i < m_for_test; ++i) {
-        subArr.resize(n_for_test);
+    for (auto i = 0; i < mForTest; ++i) {
+        subArr.resize(nForTest);
         generate(subArr.begin(), subArr.end(), rand);
         arrOrig.push_back(subArr);
         subArr.clear();
@@ -172,8 +172,8 @@ bool TestingQuickSort() {
     vector<vector<definedType>> arrSort2;
     vector<definedType> subArr;
 
-    for (auto i = 0; i < m_for_test; ++i) {
-        subArr.resize(n_for_test);
+    for (auto i = 0; i < mForTest; ++i) {
+        subArr.resize(nForTest);
         generate(subArr.begin(), subArr.end(), rand);
         arrOrig.push_back(subArr);
         subArr.clear();

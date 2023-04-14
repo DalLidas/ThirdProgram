@@ -1,8 +1,9 @@
 #pragma
 
 #include <iostream>
+#include <vector>
+#include <string>
 #include <fstream>
-#include <algorithm>
 #include <ctime>
 #include <random>
 #include <regex>
@@ -17,8 +18,8 @@
 #define __include_Test
 //#endif
 
-#define m_for_test 5
-#define n_for_test 5
+#define mForTest 10
+#define nForTest 10
 
 #define numOfSortFunctions 5
 
