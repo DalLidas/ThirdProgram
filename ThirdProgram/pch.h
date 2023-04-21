@@ -8,20 +8,21 @@
 #include <random>
 #include <regex>
 
+#include <sstream>
+#include <iomanip>
+
+
 //I don't know how to develop cool interface. This is crutch
-#define definedType int
-//#define definedType double
+#define definedType double
+//#define definedType int
 
-
-//if you don't want run test after star prog comment this
-//#ifdef RELEAZE
-#define __include_Test
-//#endif
 
 #define mForTest 10
 #define nForTest 10
 
 #define numOfSortFunctions 5
+
+#define consoleOutputNumBuffer 7
 
 using namespace std;
 

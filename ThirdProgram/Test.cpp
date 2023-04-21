@@ -3,11 +3,11 @@
 
 bool ErrorHandler() {
 	try {
-        if (TestingBubbleSort());
-        if (TestingSelectionSort());
-		if (TestingInsertionSort());
-        if (TestingShellSort());
-        if (TestingQuickSort());
+        TestingBubbleSort();
+        TestingSelectionSort();
+		TestingInsertionSort();
+        TestingShellSort();
+        TestingQuickSort();
 	}
 	catch(const int& numOfFailedTest){
         switch (numOfFailedTest){
@@ -46,7 +46,7 @@ bool TestingBubbleSort() {
 
     for (auto i = 0; i < mForTest; ++i) {
         subArr.resize(nForTest);
-        generate(subArr.begin(), subArr.end(), rand);
+        generate(subArr.begin(), subArr.end(), []() -> definedType {return(rand() % 1000 / 10. - 50); });
         arrOrig.push_back(subArr);
         subArr.clear();
     }
@@ -78,7 +78,7 @@ bool TestingSelectionSort() {
 
     for (auto i = 0; i < mForTest; ++i) {
         subArr.resize(nForTest);
-        generate(subArr.begin(), subArr.end(), rand);
+        generate(subArr.begin(), subArr.end(), []() -> definedType {return(rand() % 1000 / 10. - 50); });
         arrOrig.push_back(subArr);
         subArr.clear();
     }
@@ -110,7 +110,7 @@ bool TestingInsertionSort() {
 
     for (auto i = 0; i < mForTest; ++i) {
         subArr.resize(nForTest);
-        generate(subArr.begin(), subArr.end(), rand);
+        generate(subArr.begin(), subArr.end(), []() -> definedType {return(rand() % 1000 / 10. - 50); });
         arrOrig.push_back(subArr);
         subArr.clear();
     }
@@ -142,7 +142,7 @@ bool TestingShellSort() {
 
     for (auto i = 0; i < mForTest; ++i) {
         subArr.resize(nForTest);
-        generate(subArr.begin(), subArr.end(), rand);
+        generate(subArr.begin(), subArr.end(), []() -> definedType {return(rand() % 1000 / 10. - 50); });
         arrOrig.push_back(subArr);
         subArr.clear();
     }
@@ -174,7 +174,7 @@ bool TestingQuickSort() {
 
     for (auto i = 0; i < mForTest; ++i) {
         subArr.resize(nForTest);
-        generate(subArr.begin(), subArr.end(), rand);
+        generate(subArr.begin(), subArr.end(), []() -> definedType {return(rand() % 1000 / 10. - 50); });
         arrOrig.push_back(subArr);
         subArr.clear();
     }

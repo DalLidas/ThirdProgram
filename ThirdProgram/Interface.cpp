@@ -82,11 +82,11 @@ void InputFromFile(vector<vector<definedType>>& arrOrig) {
             continue;
         }
         else {
-            if (!(inputStream >> m || m < 0)) {
+            if (!(inputStream >> m || m < 1)) {
                 cout << "Invalid data from file( incorrect value of 'm' ) " << endl;
                 continue;
             }
-            if (!(inputStream >> n || n < 0)) {
+            if (!(inputStream >> n || n < 2)) {
                 cout << "Invalid data from file( incorrect value of 'n' ) " << endl;
                 continue;
             }
@@ -117,17 +117,13 @@ void InputFromConsole(vector<vector<definedType>>& arrOrig) {
 
     vector<definedType> subArr;
     definedType variable;
-    
-    cout << "Enter m";
-    m = EnterNum<int>();
 
-    cout << "Enter n";
-    n = EnterNum<int>();
+    while (m <= 0) m = EnterNum<int>("Enter m ( m > 0 ): ");
+    while (n <= 1) n = EnterNum<int>("Enter n ( n > 1 ): ");
 
     for (auto i = 0; i < m; ++i) {
         for (auto j = 0; j < n; ++j) {
-            cout << "arr[" << i << "][" << j << "] = ";
-            variable = EnterNum<int>();
+            variable = EnterNum<int>("arr[" + to_string(i+1) + "][" + to_string(j+1) + "] = ");
             subArr.push_back(variable);
         }
         arrOrig.push_back(subArr);
@@ -141,15 +137,12 @@ void InputRandom(vector<vector<definedType>>& arrOrig) {
 
     vector<definedType> subArr;
 
-    cout << "Enter m";
-    m = EnterNum<int>();
-
-    cout << "Enter n";
-    n = EnterNum<int>();
+    while (m <= 0) m = EnterNum<int>("Enter m ( m > 0 ): ");
+    while (n <= 1) n = EnterNum<int>("Enter n ( n > 1 ): ");
 
     for (auto i = 0; i < m; ++i) {
         subArr.resize(n);
-        generate(subArr.begin(), subArr.end(), rand);
+        generate(subArr.begin(), subArr.end(), []() -> definedType {return(rand() % 1000 / 10. - 50); });
         arrOrig.push_back(subArr);
         subArr.clear();
     }
@@ -159,9 +152,12 @@ void CompareAll(const vector<vector<definedType>>& arrOrig, vector<vector<define
     vector<vector<definedType>> subArrSort;
 
     bool flagFullInfo = false;
-    bool flagWriteInfo = false;
 
-    ofstream outputStream;
+    ofstream outputStream{};
+    stringstream stats{};
+    stringstream results{};
+
+    DrawBorder(stats);
 
     /////////////////////////////////////////////////////////////////////////
     //  It is necessary to sort the rows of the matrix in ascending order  //
@@ -169,13 +165,32 @@ void CompareAll(const vector<vector<definedType>>& arrOrig, vector<vector<define
 
     cout << "Do you want are full information about sorting (Yes \"1\" or No \"2\")";
     if (EnterSettingsTwo() == 1) flagFullInfo = true;
+    DrawBorder();
+    cout << endl;
     DrawSubBorder();
 
+    subArrSort = arrOrig;
+    SortHandler<BubbleSort<definedType>>(subArrSort, flagFullInfo, stats, results);
+    arrSort = subArrSort;
+
+    subArrSort = arrOrig;
+    SortHandler<SelectionSort<definedType>>(subArrSort, flagFullInfo, stats, results);
+
+    subArrSort = arrOrig;
+    SortHandler<InsertionSort<definedType>>(subArrSort, flagFullInfo, stats, results);
+   
+    subArrSort = arrOrig;
+    SortHandler<ShellSort<definedType>>(subArrSort, flagFullInfo, stats, results);
+  
+    subArrSort = arrOrig;
+    SortHandler<QuickSort<definedType>>(subArrSort, flagFullInfo, stats, results);
+
+    cout << results.str() << endl << stats.str();
+
     cout << endl << "Do you want write to file info about sorting (Yes \"1\" or No \"2\")";
-    if (EnterSettingsTwo() == 1) flagWriteInfo = true;
 
     //Open stream to write info to file
-    if (flagWriteInfo) { 
+    if (EnterSettingsTwo() == 1) {
         while (true) {
             string filePath = " ";
             filePath = EnterFilePath();
@@ -196,31 +211,13 @@ void CompareAll(const vector<vector<definedType>>& arrOrig, vector<vector<define
                 break;
             }
         }
+
+        DrawSubBorder(outputStream);
+        outputStream << results.str() << endl << stats.str();
+
+        outputStream.close();
     }
-   
 
-    subArrSort = arrOrig;
-    if (flagWriteInfo) SortHandler<BubbleSort<definedType>>(subArrSort, flagFullInfo, true, outputStream);
-    else SortHandler<BubbleSort<definedType>>(subArrSort, flagFullInfo);
-    arrSort = subArrSort;
-
-    subArrSort = arrOrig;
-    if (flagWriteInfo) SortHandler<SelectionSort<definedType>>(subArrSort, flagFullInfo, true, outputStream);
-    else SortHandler<SelectionSort<definedType>>(subArrSort, flagFullInfo);
-
-    subArrSort = arrOrig;
-    if (flagWriteInfo) SortHandler<InsertionSort<definedType>>(subArrSort, flagFullInfo, true, outputStream);
-    else SortHandler<InsertionSort<definedType>>(subArrSort, flagFullInfo);
-
-    subArrSort = arrOrig;
-    if (flagWriteInfo) SortHandler<ShellSort<definedType>>(subArrSort, flagFullInfo, true, outputStream);
-    else SortHandler<ShellSort<definedType>>(subArrSort, flagFullInfo);
-
-    subArrSort = arrOrig;
-    if (flagWriteInfo) SortHandler<QuickSort<definedType>>(subArrSort, flagFullInfo, true, outputStream);
-    else SortHandler<QuickSort<definedType>>(subArrSort, flagFullInfo);
-
-    if (flagWriteInfo) outputStream.close();
 }
 
 void Compare(const vector<vector<definedType>>& arrOrig, vector<vector<definedType>>& arrSort) {
@@ -230,45 +227,19 @@ void Compare(const vector<vector<definedType>>& arrOrig, vector<vector<definedTy
     int sortFunc = 0;
 
     bool flagFullInfo = false;
-    bool flagWriteInfo = false;
 
     ofstream outputStream;
+    stringstream stats{};
+    stringstream results{};
+
+    DrawBorder(stats);
 
     cout << "Do you want are full information about sorting (Yes \"1\" or No \"2\")";
     if (EnterSettingsTwo() == 1) flagFullInfo = true;
     DrawSubBorder();
 
-    cout << endl << "Do you want write to file info about sort (Yes \"1\" or No \"2\")";
-    if (EnterSettingsTwo() == 1) flagWriteInfo = true;
-    DrawSubBorder();
-    cout << endl;
-
-    //Open stream to write info to file
-    if (flagWriteInfo) {
-        while (true) {
-            string filePath = " ";
-            filePath = EnterFilePath();
-
-            ifstream test(filePath.c_str());
-            if (test.is_open()) {
-                cout << "File already exist. You still want a write on it? (Yes \"1\" or No \"2\")";
-                if (EnterSettingsTwo() == 2) continue;
-            }
-            test.close();
-
-            outputStream.open(filePath.c_str(), ios::app);
-            if (!outputStream.is_open()) {
-                cout << "File with this name don't exist. Try again" << endl;
-                continue;
-            }
-            else {
-                break;
-            }
-        }
-    }
-
-    cout << endl << "How many sort functions you want to use";
-    while (!IsInBetween<int>(numOfSortFunc = EnterNum<int>(), 0, INT_MAX));
+    cout <<endl << "How many sort functions you want to use: ";
+    while (!IsInBetween<int>(numOfSortFunc = EnterNum<int>(""), 0, INT_MAX));
 
     DrawSubBorder();
     cout << endl << "Set the type of sorting order:" << endl
@@ -281,51 +252,81 @@ void Compare(const vector<vector<definedType>>& arrOrig, vector<vector<definedTy
     cout << endl;
 
     for (auto i = 0; i < numOfSortFunc; ++i) {
-        cout << "sorting function[" << i << "] type";
-        while (!IsInBetween<int>(sortFunc = EnterNum<int>(), 0, numOfSortFunctions));
+        while (!IsInBetween<int>(sortFunc = EnterNum<int>(("sorting function[" + to_string(i + 1) + "] type: ")), 0, numOfSortFunctions));
 
         sortingOrder.push_back(sortFunc);
     }
+
+    DrawBorder();
+    cout << endl;    
+    DrawSubBorder();
 
     for (auto i = 0; i < numOfSortFunc; ++i) {
         switch (sortingOrder[i]) {
         case(1):
             subArrSort = arrOrig;
-            if (flagWriteInfo) SortHandler<BubbleSort<definedType>>(subArrSort, flagFullInfo, true, outputStream);
-            else SortHandler<BubbleSort<definedType>>(subArrSort, flagFullInfo);
+            SortHandler<BubbleSort<definedType>>(subArrSort, flagFullInfo, stats, results);
             break;
         case(2):
             subArrSort = arrOrig;
-            if (flagWriteInfo) SortHandler<SelectionSort<definedType>>(subArrSort, flagFullInfo, true, outputStream);
-            else SortHandler<SelectionSort<definedType>>(subArrSort, flagFullInfo);
+            SortHandler<SelectionSort<definedType>>(subArrSort, flagFullInfo, stats, results);
             break;
         case(3):
             subArrSort = arrOrig;
-            if (flagWriteInfo) SortHandler<InsertionSort<definedType>>(subArrSort, flagFullInfo, true, outputStream);
-            else SortHandler<InsertionSort<definedType>>(subArrSort, flagFullInfo);
+            SortHandler<InsertionSort<definedType>>(subArrSort, flagFullInfo, stats, results);
             break;
         case(4):
             subArrSort = arrOrig;
-            if (flagWriteInfo) SortHandler<ShellSort<definedType>>(subArrSort, flagFullInfo, true, outputStream);
-            else SortHandler<ShellSort<definedType>>(subArrSort, flagFullInfo);
+            SortHandler<ShellSort<definedType>>(subArrSort, flagFullInfo, stats, results);
             break;
         case(5):
             subArrSort = arrOrig;
-            if (flagWriteInfo) SortHandler<QuickSort<definedType>>(subArrSort, flagFullInfo, true, outputStream);
-            else SortHandler<QuickSort<definedType>>(subArrSort, flagFullInfo);
+            SortHandler<QuickSort<definedType>>(subArrSort, flagFullInfo, stats, results);
             break;
         }
+    }
 
-        if (i == 0) arrSort = subArrSort;
+    arrSort = subArrSort;
+    cout << results.str() << endl << stats.str();
+
+    cout << endl << "Do you want write to file info about sorting (Yes \"1\" or No \"2\")";
+
+    //Open stream to write info to file
+    if (EnterSettingsTwo() == 1) {
+        while (true) {
+            string filePath = " ";
+            filePath = EnterFilePath();
+
+            ifstream test(filePath.c_str());
+            if (test.is_open()) {
+                cout << "File already exist. You still want a write on it? (Yes \"1\" or No \"2\")";
+                if (EnterSettingsTwo() == 2) continue;
+            }
+            test.close();
+
+            outputStream.open(filePath.c_str(), ios::app);
+            if (!outputStream.is_open()) {
+                cout << "File with this name don't exist. Try again" << endl;
+                continue;
+            }
+            else {
+                break;
+            }
+        }
+
+        DrawSubBorder(outputStream);
+        outputStream << results.str() << endl << stats.str();
+
+        outputStream.close();
     }
 }
 
-void WriteOutputConsole(const vector<vector<definedType>>& arr){
+void WriteOutputConsole(const vector<vector<definedType>>& arr, ostream& output){
     for (auto i = 0; i < arr.size(); ++i) {
         for (auto j = 0; j < arr[0].size(); ++j) {
-            cout << arr[i][j] << " ";
+            output << " | " << setw(consoleOutputNumBuffer) << arr[i][j];
         }
-        cout << endl;
+        output << " | "  << endl;
     }
 }
 
