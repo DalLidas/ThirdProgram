@@ -113,12 +113,14 @@ public:
 	virtual void Sort(vector<T>& arr) override final {
 		int startTime = clock();
 
-		for (auto i = 0; i < arr.size(); ++i){
-			for (auto j = i + 1; j < arr.size(); ++j){
-				if (ISort<T>::IsBigger(arr[i], arr[j])){
-					ISort<T>::Swap(arr, i, j);
+		for (auto step = 0; step < arr.size() - 1; step++) {
+			auto min_idx = step;
+			for (auto i = step + 1; i < arr.size(); i++) {
+				if (ISort<T>::IsSmaller(arr[i], arr[min_idx])) {
+					min_idx = i;
 				}
 			}
+			ISort<T>::Swap(arr, min_idx, step);
 		}
 		
 		int endTime = clock();
@@ -150,6 +152,9 @@ public:
 				if (ISort<T>::IsBigger(arr[j - 1], arr[j])) {
 					ISort<T>::Swap(arr, j - 1, j);
 				}
+				else {
+					break;
+				}
 			}
 		}
 			
@@ -177,35 +182,17 @@ public:
 	virtual void Sort(vector<T>& arr) override final {
 		int startTime = clock();
 
-		// Start with a big gap, then reduce the gap
-		for (size_t gap = arr.size() / 2; gap > 0; gap /= 2)
-		{
-			// Do a gapped insertion sort for this gap size.
-			// The first gap elements a[0..gap-1] are already in gapped order
-			// keep adding one more element until the entire array is
-			// gap sorted 
-			for (size_t i = gap; i < arr.size(); i += 1)
-			{
-				// add a[i] to the elements that have been gap sorted
-				// save a[i] in temp and make a hole at position i
+		for (int interval = arr.size() / 2; interval > 0; interval /= 2) {
+			for (int i = interval; i < arr.size(); i += 1) {
 				T temp = arr[i];
-
-				++numOfSwaps;
-
-				// shift earlier gap-sorted elements up until the correct 
-				// location for a[i] is found
-				size_t j;
-				for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
-					arr[j] = arr[j - gap];
-
+				int j;
+				for (j = i; j >= interval && arr[j - interval] > temp; j -= interval) {
+					arr[j] = arr[j - interval];
 					++numOfCompares;
 					++numOfSwaps;
 				}
-				//  put temp (the original a[i]) in its correct location
 				arr[j] = temp;
-				++numOfCompares;
 			}
-
 		}
 
 		int endTime = clock();
@@ -239,8 +226,6 @@ class QuickSort : public ISort<T> {
 		// ¬ыбираем крайний правый элемент в качестве опорного элемента массива
 		T pivot = arr[end];
 
-		++numOfCompares;
-
 		// элементы, меньшие точки поворота, будут перемещены влево от `pIndex`
 		// элементы больше, чем точка поворота, будут сдвинуты вправо от `pIndex`
 		// равные элементы могут идти в любом направлении
@@ -254,10 +239,10 @@ class QuickSort : public ISort<T> {
 			{
 				swap(arr[i], arr[pIndex]);
 				pIndex++;
-
-				++numOfCompares;
+				
 				++numOfSwaps;
 			}
+			++numOfCompares;
 		}
 
 		// помен€ть местами `pIndex` с пивотом

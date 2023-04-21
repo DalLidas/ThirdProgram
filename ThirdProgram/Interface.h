@@ -12,18 +12,23 @@ void DrawSubBorder(ostream& outputStream = cout);
 int EnterSettingsTwo();
 int EnterSettingThree();
 string EnterFilePath();
-template <typename T> T EnterNum() {
-    T num = 0;
-    cout << ": ";
 
-    while (!(cin >> num)) {
+template <typename type = int>
+type EnterNum(const string& msg) {
+    type item{};
+
+    while (cout << msg && !(cin >> item)) {
         cin.clear();
         cin.ignore(INT32_MAX, '\n');
-        cout << "Invalid input. Try again" << ": ";
+        cout << endl << "Invalide input. Try again" << endl;
     }
 
-    return num;
+    return item;
 }
+
+void WriteOutputConsole(const vector<vector<definedType>>& arr, ostream& output = cout);
+
+void WriteOutputFile(const vector<vector<definedType>>& arr);
 
 void InputFromFile(vector<vector<definedType>>& arrOrig);
 
@@ -36,19 +41,18 @@ void CompareAll(const vector<vector<definedType>>& arrOrig, vector<vector<define
 void Compare(const vector<vector<definedType>>& arrOrig, vector<vector<definedType>>& arrSort);
 
 template <class sortFunction>
-void SortHandler(vector<vector<definedType>>& subArrSort, bool flagFullInfo, bool flagWriteInfo = false, ostream& outputStream = cout) {
+void SortHandler(vector<vector<definedType>>& subArrSort, bool flagFullInfo, stringstream& stats, stringstream& result) {
     sortFunction function{};
 
     int numOfCompares = 0;
     int numOfSwaps = 0;
     int executionTime = 0;
-
-    DrawSubBorder();
-    cout << endl;
-
-    if (flagWriteInfo) {
-        DrawSubBorder(outputStream);
-        outputStream << endl;
+    
+    stats << endl;
+    if (flagFullInfo) {
+        stats << function.Name() << endl;
+        DrawSubBorder(stats);
+        stats << endl;
     }
 
     for (auto i = 0; i < subArrSort.size(); ++i) {
@@ -56,25 +60,22 @@ void SortHandler(vector<vector<definedType>>& subArrSort, bool flagFullInfo, boo
         numOfCompares += function.GetNumOfCompares();
         numOfSwaps += function.GetNumOfOperations();
         executionTime += function.GetTime();
-        if (flagFullInfo && flagWriteInfo) {
-            outputStream << "arr[" << i << "] { " << function.Info() << " }" << endl;
+        
+        if (flagFullInfo) {
+            stats << "arr[" << i+1 << "] { " << function.Info() << " }" << endl;
         }
-        else if (flagFullInfo) {
-            cout << "arr[" << i << "] { " << function.Info() << " }" << endl;
-        }
+        function.Clear();
     }
-
-    if (flagWriteInfo) {
-        outputStream << function.Name() << ": arr { Num of compares : " << numOfCompares << " || "
-            << "Num of swaps: " << numOfSwaps << " || "
-            << "Execution time: " << executionTime << " }" << endl;
-    }
-
-    cout << function.Name() << ": arr { Num of compares : " << numOfCompares << " || "
+    
+    stats << function.Name() << " { Num of compares : " << numOfCompares << " || "
         << "Num of swaps: " << numOfSwaps << " || "
         << "Execution time: " << executionTime << " }" << endl;
+    DrawBorder(stats);
+
+
+    result << endl << function.Name() << endl;
+    DrawSubBorder(result);
+    result << endl;
+    WriteOutputConsole(subArrSort, result);
+    DrawSubBorder(result);
 }
-
-void WriteOutputConsole(const vector<vector<definedType>>& arr);
-
-void WriteOutputFile(const vector<vector<definedType>>& arr);

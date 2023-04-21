@@ -1,5 +1,4 @@
 #include "Interface.h"
-
 #include "Test.h"
 
 
@@ -14,25 +13,21 @@ int main() {
     int exitSetting    = 0;
 
     //flags
-    bool flagErrorExist = true;
-    bool flagWriteIfConsoleInput = false;
+    bool flagErrorExist          = true;
     bool flagInputNewMatrix      = true;
 
     //containers
     vector<vector<definedType>> arrOrig;
     vector<vector<definedType>> arrSort;
 
-    DrawBorder();
-    cout << endl << "Test for program" << endl;
-    DrawSubBorder();
-    cout << endl;
+    
     flagErrorExist = ErrorHandler();
     if (flagErrorExist) {
-        cout << "Do you still want are run the program? (Yes \"1\" or No \"2\")";
+        cout << " Do you still want are run the program? (Yes \"1\" or No \"2\")";
         if (EnterSettingsTwo() == 2) return 0;
     }
     else {
-        DrawSubBorder();
+        DrawBorder();
         cout << endl << "Program passed all test. All sorting function work correct" << endl ;
         DrawBorder();
     }
@@ -61,17 +56,24 @@ int main() {
 
             //input
             switch (inputSetting) {
-            case(inputFromFile): InputFromFile(arrOrig); break;                                         //Input from file
-            case(inputFromConsole): InputFromConsole(arrOrig); flagWriteIfConsoleInput = true; break;   //Input from console
-            case(inputRandom): InputRandom(arrOrig); break;                                             //Generate
+            case(inputFromFile): InputFromFile(arrOrig); break;         //Input from file
+            case(inputFromConsole): InputFromConsole(arrOrig); break;   //Input from console
+            case(inputRandom): InputRandom(arrOrig); break;             //Generate
             default: cout << "Unexpected behavior" << endl; continue;
             }
 
-            if (flagWriteIfConsoleInput) {
+            if (inputSetting == inputFromFile || inputSetting == inputRandom) {
+                DrawSubBorder();
+                cout << endl;
+                WriteOutputConsole(arrOrig);
+            }
+            if (inputSetting == inputFromConsole || inputSetting == inputRandom){
                 DrawBorder();
                 cout << endl << "Do you want are write to file entered matrix (Yes \"1\" or No \"2\")";
                 if (EnterSettingsTwo() == 1) WriteOutputFile(arrOrig);
             }
+
+            
         }
    
 
@@ -88,17 +90,13 @@ int main() {
 
         //compare sorting functions
         switch (compareSetting) {
-        case(compareAll): CompareAll(arrOrig, arrSort); break;  //Input from file
-        case(compare): Compare(arrOrig, arrSort); break;        //Input from console
-        case(dontCompare): break;                               //Nothing 
+        case(compareAll): CompareAll(arrOrig, arrSort); break;  //Compare all sorting function
+        case(compare): Compare(arrOrig, arrSort); break;        //Chose sorting function
+        case(dontCompare): break;                               //Dont compare 
         default: cout << "Unexpected behavior" << endl; continue;
         }
 
         if(compareSetting != dontCompare){
-            DrawBorder();
-            cout << endl << "Do you want are write to console sorted matrix (Yes \"1\" or No \"2\")";
-            if (EnterSettingsTwo() == 1) WriteOutputConsole(arrSort);
-
             DrawSubBorder();
             cout << endl << "Do you want are write to file sorted matrix (Yes \"1\" or No \"2\")";
             if (EnterSettingsTwo() == 1) WriteOutputFile(arrSort);
