@@ -83,11 +83,11 @@ void InputFromFile(vector<vector<definedType>>& arrOrig) {
         }
         else {
             if (!(inputStream >> m || m < 1)) {
-                cout << "Invalid data from file( incorrect value of 'm' ) " << endl;
+                cout << "Invalid data from file( incorrect value of 'rows' ) " << endl;
                 continue;
             }
             if (!(inputStream >> n || n < 2)) {
-                cout << "Invalid data from file( incorrect value of 'n' ) " << endl;
+                cout << "Invalid data from file( incorrect value of 'collums' ) " << endl;
                 continue;
             }
 
@@ -118,8 +118,9 @@ void InputFromConsole(vector<vector<definedType>>& arrOrig) {
     vector<definedType> subArr;
     definedType variable;
 
-    while (m <= 0) m = EnterNum<int>("Enter m ( m > 0 ): ");
-    while (n <= 1) n = EnterNum<int>("Enter n ( n > 1 ): ");
+    while (m <= 0) m = EnterNum<int>("Enter rows ( rows > 0 ): ");
+    while (n <= 1) n = EnterNum<int>("Enter collums ( collums > 1 ): ");
+
 
     for (auto i = 0; i < m; ++i) {
         for (auto j = 0; j < n; ++j) {
@@ -137,8 +138,8 @@ void InputRandom(vector<vector<definedType>>& arrOrig) {
 
     vector<definedType> subArr;
 
-    while (m <= 0) m = EnterNum<int>("Enter m ( m > 0 ): ");
-    while (n <= 1) n = EnterNum<int>("Enter n ( n > 1 ): ");
+    while (m <= 0) m = EnterNum<int>("Enter rows ( rows > 0 ): ");
+    while (n <= 1) n = EnterNum<int>("Enter collums ( collums > 1 ): ");
 
     for (auto i = 0; i < m; ++i) {
         subArr.resize(n);
@@ -163,7 +164,7 @@ void CompareAll(const vector<vector<definedType>>& arrOrig, vector<vector<define
     //  It is necessary to sort the rows of the matrix in ascending order  //
     /////////////////////////////////////////////////////////////////////////
 
-    cout << "Do you want are full information about sorting (Yes \"1\" or No \"2\")";
+    cout << "Do you want full information about sorting (Yes \"1\" or No \"2\")";
     if (EnterSettingsTwo() == 1) flagFullInfo = true;
     DrawBorder();
     cout << endl;
@@ -178,14 +179,24 @@ void CompareAll(const vector<vector<definedType>>& arrOrig, vector<vector<define
 
     subArrSort = arrOrig;
     SortHandler<InsertionSort<definedType>>(subArrSort, flagFullInfo, stats, results);
-   
+    
     subArrSort = arrOrig;
     SortHandler<ShellSort<definedType>>(subArrSort, flagFullInfo, stats, results);
   
     subArrSort = arrOrig;
     SortHandler<QuickSort<definedType>>(subArrSort, flagFullInfo, stats, results);
 
-    cout << results.str() << endl << stats.str();
+    cout << results.str() << endl;
+    if (!flagFullInfo)
+        cout << setw(16) << "Name of sorting"
+        << setw(5) << " | "
+        << setw(16) << "Num of compares"
+        << setw(5) << " | "
+        << setw(16) << "Num of swaps"
+        << setw(5) << " | "
+        << setw(16) << "Execution time"
+        << setw(5) << " | " << endl;
+    cout << stats.str();
 
     cout << endl << "Do you want write to file info about sorting (Yes \"1\" or No \"2\")";
 
@@ -213,7 +224,17 @@ void CompareAll(const vector<vector<definedType>>& arrOrig, vector<vector<define
         }
 
         DrawSubBorder(outputStream);
-        outputStream << results.str() << endl << stats.str();
+        outputStream << results.str() << endl;
+        if (!flagFullInfo)
+            outputStream << setw(16) << "Name of sorting"
+            << setw(5) << " | "
+            << setw(16) << "Num of compares"
+            << setw(5) << " | "
+            << setw(16) << "Num of swaps"
+            << setw(5) << " | "
+            << setw(16) << "Execution time"
+            << setw(5) << " | " << endl;
+        outputStream << stats.str();
 
         outputStream.close();
     }
@@ -234,7 +255,7 @@ void Compare(const vector<vector<definedType>>& arrOrig, vector<vector<definedTy
 
     DrawBorder(stats);
 
-    cout << "Do you want are full information about sorting (Yes \"1\" or No \"2\")";
+    cout << "Do you want full information about sorting (Yes \"1\" or No \"2\")";
     if (EnterSettingsTwo() == 1) flagFullInfo = true;
     DrawSubBorder();
 
@@ -287,7 +308,17 @@ void Compare(const vector<vector<definedType>>& arrOrig, vector<vector<definedTy
     }
 
     arrSort = subArrSort;
-    cout << results.str() << endl << stats.str();
+    cout << results.str() << endl;
+    if (!flagFullInfo)
+        cout << setw(16) << "Name of sorting"
+        << setw(5) << " | "
+        << setw(16) << "Num of compares"
+        << setw(5) << " | "
+        << setw(16) << "Num of swaps"
+        << setw(5) << " | "
+        << setw(16) << "Execution time"
+        << setw(5) << " | " << endl;
+    cout << stats.str();
 
     cout << endl << "Do you want write to file info about sorting (Yes \"1\" or No \"2\")";
 
@@ -315,7 +346,17 @@ void Compare(const vector<vector<definedType>>& arrOrig, vector<vector<definedTy
         }
 
         DrawSubBorder(outputStream);
-        outputStream << results.str() << endl << stats.str();
+        outputStream << results.str() << endl;
+        if(!flagFullInfo)
+            outputStream << setw(16) << "Name of sorting"
+            << setw(5) << " | "
+            << setw(16) << "Num of compares"
+            << setw(5) << " | "
+            << setw(16) << "Num of swaps"
+            << setw(5) << " | "
+            << setw(16) << "Execution time"
+            << setw(5) << " | " << endl;
+        outputStream << stats.str();
 
         outputStream.close();
     }
@@ -337,7 +378,7 @@ void WriteOutputFile(const vector<vector<definedType>>& arr) {
 
         ifstream test(filePath.c_str());
         if (test.is_open()) {
-            cout << "File already exist. You still want a write on it? (Yes \"1\" or No \"2\")";
+            cout << "File already exist. You still want write on it? (Yes \"1\" or No \"2\")";
             if (EnterSettingsTwo() == 2) continue;
         }
         test.close();

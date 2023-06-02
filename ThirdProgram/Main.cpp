@@ -2,9 +2,9 @@
 #include "Test.h"
 
 
-enum inputSettings   { inputFromFile = 1, inputFromConsole = 2 , inputRandom = 3};
-enum compareSettings { compareAll = 1, compare = 2 , dontCompare = 3};
-enum exitSettings    { oldMatrix = 1, newMatrix = 2, closeProgram = 3 };
+enum inputSettings   { inputFromFile = 1, inputFromConsole = 2, inputRandom  = 3};
+enum compareSettings { compareAll    = 1, compare          = 2, dontCompare  = 3};
+enum exitSettings    { oldMatrix     = 1, newMatrix        = 2, closeProgram = 3};
 
 int main() {
     //settings

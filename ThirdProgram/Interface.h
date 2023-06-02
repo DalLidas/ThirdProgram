@@ -50,7 +50,14 @@ void SortHandler(vector<vector<definedType>>& subArrSort, bool flagFullInfo, str
     
     stats << endl;
     if (flagFullInfo) {
-        stats << function.Name() << endl;
+        stats << setw(16) << "Name of sorting"
+            << setw(5) << " | "
+            << setw(16) << "Num of compares"
+            << setw(5) << " | "
+            << setw(16) << "Num of swaps"
+            << setw(5) << " | "
+            << setw(16) << "Execution time"
+            << setw(5) << " | " << endl;
         DrawSubBorder(stats);
         stats << endl;
     }
@@ -62,14 +69,26 @@ void SortHandler(vector<vector<definedType>>& subArrSort, bool flagFullInfo, str
         executionTime += function.GetTime();
         
         if (flagFullInfo) {
-            stats << "arr[" << i+1 << "] { " << function.Info() << " }" << endl;
+            string index = "arr[" + to_string(i + 1) + "]";
+            stats << setw(16) << index << function.Info();
         }
         function.Clear();
     }
+    if (flagFullInfo) {
+        DrawSubBorder(stats);
+        stats << endl;
+    }
     
-    stats << function.Name() << " { Num of compares : " << numOfCompares << " || "
-        << "Num of swaps: " << numOfSwaps << " || "
-        << "Execution time: " << executionTime << " }" << endl;
+    stats << setw(16) << function.Name() 
+        << setw(5) << " | "
+        << setw(16) << numOfCompares
+        << setw(5) << " | "
+        << setw(16) << numOfSwaps
+        << setw(5) << " | "
+        << setw(16) << executionTime 
+        << setw(5) << " | " << endl;
+
+
     DrawBorder(stats);
 
 

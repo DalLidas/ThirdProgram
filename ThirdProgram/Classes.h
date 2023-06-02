@@ -50,9 +50,15 @@ public:
 	}
 
 	inline string Info() const{
-		return  "Num of compares: " + to_string(numOfCompares) + " || "
-			+ "Num of swaps: " + to_string(numOfSwaps) + " || "
-			+ "Execution time: " + to_string(executionTime);
+		stringstream output;
+		output << setw(5) << " | "
+			<< setw(16) << numOfCompares
+			<< setw(5) << " | "
+			<< setw(16) << numOfSwaps
+			<< setw(5) << " | "
+			<< setw(16) << executionTime
+			<< setw(5) << " | " << endl;
+		return output.str().c_str();
 	}
 
 	inline void Clear() {
